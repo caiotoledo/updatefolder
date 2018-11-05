@@ -6,7 +6,10 @@ from shutil import copyfile
 
 
 def helpfunc():
-    print("usage: compareFolder.py [FolderWithNewFiles] [FolderWithOldFiles]")
+    print("usage: compareFolder.py [FolderWithNewFiles] [FolderWithOldFiles] [FilePattern]")
+    print("FolderWithNewFiles: Folder with new Files to update the old folder")
+    print("FolderWithOldFiles: Folder to be updated")
+    print("FilePattern: File pattern to be updated, ex: *.txt")
 
 
 def check_path(path):
@@ -36,7 +39,7 @@ def get_file_hash256(myfile):
         return sha256.hexdigest()
 
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 4:
     helpfunc()
     sys.exit(1)
 
@@ -47,23 +50,25 @@ if check_path(sys.argv[1]) is False or check_path(sys.argv[2]) is False:
 
 updatedDir = sys.argv[1]
 newDir = sys.argv[2]
+FilePattern = sys.argv[3]
 
 for subdir, dirs, files in os.walk(updatedDir):
     filesNotFound = []
     for file in files:
-        updatedFile = os.path.join(subdir, file)
-        findFiles = find_pattern(file, newDir)
-        if len(findFiles) > 0:
-            shaFirst = get_file_hash256(updatedFile)
-            for f in findFiles:
-                shaSecond = get_file_hash256(f)
-                if shaFirst != shaSecond:
-                    copyfile(updatedFile, f)
-                    print("Updated file:")
-                    print(updatedFile, "->", f)
-                    print("\n")
-        else:
-            filesNotFound.append(updatedFile)
+        if fnmatch.fnmatch(file, FilePattern):
+            updatedFile = os.path.join(subdir, file)
+            findFiles = find_pattern(file, newDir)
+            if len(findFiles) > 0:
+                shaFirst = get_file_hash256(updatedFile)
+                for f in findFiles:
+                    shaSecond = get_file_hash256(f)
+                    if shaFirst != shaSecond:
+                        copyfile(updatedFile, f)
+                        print("Updated file:")
+                        print(updatedFile, "->", f)
+                        print("\n")
+            else:
+                filesNotFound.append(updatedFile)
 
 if len(filesNotFound) > 0:
     print("FILES NOT FOUND:")
