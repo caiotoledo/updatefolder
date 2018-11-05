@@ -60,6 +60,6 @@ for subdir, dirs, files in os.walk(updatedDir):
                 filesNotFound.append(updatedFile)
 
 if len(filesNotFound) > 0:
-    print("FILES NOT FOUND:")
+    print("FILES NOT FOUND ON", newDir, ":")
     for f in filesNotFound:
         print(f)
