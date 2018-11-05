@@ -28,7 +28,6 @@ def find_pattern(pattern, path):
 def get_file_hash256(myfile):
     sha256 = hashlib.sha256()
     with open(myfile, 'rb') as f:
-        BUF_SIZE = 256  # size of read iteration
         while True:
             data = f.read()
             if not data:
