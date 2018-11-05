@@ -1,7 +1,7 @@
 import sys
 import os
 import fnmatch
-import hashlib
+import filecmp
 from shutil import copyfile
 
 
@@ -28,15 +28,6 @@ def find_pattern(pattern, path):
     return result
 
 
-def get_file_hash256(myfile):
-    sha256 = hashlib.sha256()
-    with open(myfile, 'rb') as f:
-        while True:
-            data = f.read()
-            if not data:
-                break
-            sha256.update(data)
-        return sha256.hexdigest()
 
 
 if len(sys.argv) < 4:
@@ -59,10 +50,8 @@ for subdir, dirs, files in os.walk(updatedDir):
             updatedFile = os.path.join(subdir, file)
             findFiles = find_pattern(file, newDir)
             if len(findFiles) > 0:
-                shaFirst = get_file_hash256(updatedFile)
                 for f in findFiles:
-                    shaSecond = get_file_hash256(f)
-                    if shaFirst != shaSecond:
+                    if filecmp.cmp(f, updatedFile) is False:
                         copyfile(updatedFile, f)
                         print("Updated file:")
                         print(updatedFile, "->", f)
