@@ -6,7 +6,7 @@ from shutil import copyfile
 
 
 def helpfunc():
-    print("usage: compareFolder.py [FolderWithNewFiles] [FolderWithOldFiles] [FilePattern]")
+    print("usage: updatefolder.py [FolderWithNewFiles] [FolderWithOldFiles] [FilePattern]")
     print("FolderWithNewFiles: Folder with new Files to update the old folder")
     print("FolderWithOldFiles: Folder to be updated")
     print("FilePattern: File pattern to be updated, ex: *.txt")
