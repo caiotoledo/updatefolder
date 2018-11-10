@@ -3,6 +3,7 @@ import os
 import fnmatch
 import filecmp
 from shutil import copyfile
+import difflib
 
 
 def helpfunc():
@@ -28,6 +29,17 @@ def find_pattern(pattern, path):
     return result
 
 
+def is_ignoreline_only_diff(file1, file2):
+    ret = True
+    lines1 = open(file1).readlines()
+    lines2 = open(file2).readlines()
+    diff = difflib.ndiff(lines1, lines2)
+    deltas = ''.join(x[2:] for x in diff if x.startswith('- ')).split('\n')
+    for l in deltas:
+        if l.find("!!IGNORE-LINE!!") == -1 and len(l) > 0:
+            ret = False
+            break
+    return ret
 
 
 if len(sys.argv) < 4:
@@ -52,6 +64,12 @@ for subdir, dirs, files in os.walk(updatedDir):
             if len(findFiles) > 0:
                 for f in findFiles:
                     if filecmp.cmp(f, updatedFile) is False:
+
+                        # Workaround for generated source and header files:
+                        if fnmatch.fnmatch(updatedFile, "*.c") or fnmatch.fnmatch(updatedFile, "*.h"):
+                            if is_ignoreline_only_diff(updatedFile, f) is True:
+                                continue
+
                         copyfile(updatedFile, f)
                         print("Updated file:")
                         print(updatedFile, "->", f)
