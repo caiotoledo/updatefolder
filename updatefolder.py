@@ -47,8 +47,8 @@ if len(sys.argv) < 4:
     sys.exit(1)
 
 if check_path(sys.argv[1]) is False or check_path(sys.argv[2]) is False:
-    print("usage: compareFolder.py [FolderWithNewFiles] [FolderWithOldFiles]")
-    print("Arguments must be a valid path!")
+    print("Folder arguments must be a valid path!")
+    helpfunc()
     sys.exit(1)
 
 updatedDir = sys.argv[1]
