@@ -1,0 +1,6 @@
+language: bash
+python:
+  - "master"
+# command to run tests
+script:
+  - bash testscript.sh
