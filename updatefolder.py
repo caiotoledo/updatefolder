@@ -36,7 +36,7 @@ def is_ignoreline_only_diff(file1, file2):
     diff = difflib.ndiff(lines1, lines2)
     deltas = ''.join(x[2:] for x in diff if x.startswith('- ')).split('\n')
     for l in deltas:
-        if l.find("!!IGNORE-LINE!!") == -1 and len(l) > 0:
+        if l.find("!!IGNORE-LINE!!") == -1 and l.find("GENERATION TIME :") == -1 and len(l) > 0:
             ret = False
             break
     return ret
