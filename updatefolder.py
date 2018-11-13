@@ -61,8 +61,15 @@ for subdir, dirs, files in os.walk(updatedDir):
         if fnmatch.fnmatch(file, FilePattern):
             updatedFile = os.path.join(subdir, file)
             findFiles = find_pattern(file, newDir)
-            if any(updatedFile in s for s in findFiles):
-                findFiles.remove(updatedFile)
+
+            # Remove files found in UpdatedDir:
+            removeFiles = []
+            for f in findFiles:
+                if updatedDir in f:
+                    removeFiles.append(f)
+            for f in removeFiles:
+                findFiles.remove(f)
+
             if len(findFiles) > 0:
                 for f in findFiles:
                     if filecmp.cmp(f, updatedFile) is False:
