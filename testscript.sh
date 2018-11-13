@@ -9,6 +9,7 @@ echo "Generating files..."
 
 echo -e "\n"
 echo "Calling updatefolder.py:"
+echo "python updatefolder.py ./folders/testfolder1 ./folders/ *.h"
 python updatefolder.py ./folders/testfolder1 ./folders/ *.h
 
 echo -e "\n"
