@@ -42,7 +42,8 @@ def is_ignoreline_only_diff(file1, file2):
     return ret
 
 
-if len(sys.argv) < 4:
+if len(sys.argv) != 4:
+    print("Wrong number of parameters!")
     helpfunc()
     sys.exit(1)
 
