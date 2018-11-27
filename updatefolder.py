@@ -32,6 +32,7 @@ def find_pattern(pattern, path):
 str_ignore_diff = {
     "!!IGNORE-LINE!!",
     "GENERATION TIME :",
+    "GENERATED ON:"
 }
 
 
