@@ -71,8 +71,8 @@ updatedDir = sys.argv[1]
 newDir = sys.argv[2]
 FilePattern = sys.argv[3]
 
+filesNotFound = []
 for subdir, dirs, files in os.walk(updatedDir):
-    filesNotFound = []
     for file in files:
         if fnmatch.fnmatch(file, FilePattern):
             updatedFile = os.path.join(subdir, file)
