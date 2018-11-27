@@ -29,6 +29,19 @@ def find_pattern(pattern, path):
     return result
 
 
+str_ignore_diff = {
+    "!!IGNORE-LINE!!",
+    "GENERATION TIME :",
+}
+
+
+def has_ignore_diff(str):
+    for s in str_ignore_diff:
+        if str.find(s) != -1:
+            return True
+    return False
+
+
 def is_ignoreline_only_diff(file1, file2):
     ret = True
     lines1 = open(file1).readlines()
@@ -36,7 +49,8 @@ def is_ignoreline_only_diff(file1, file2):
     diff = difflib.ndiff(lines1, lines2)
     deltas = ''.join(x[2:] for x in diff if x.startswith('- ')).split('\n')
     for l in deltas:
-        if l.find("!!IGNORE-LINE!!") == -1 and l.find("GENERATION TIME :") == -1 and len(l) > 0:
+        if has_ignore_diff(l) is False and \
+                len(l) > 0:
             ret = False
             break
     return ret
