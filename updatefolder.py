@@ -40,6 +40,8 @@ def has_ignore_diff(str):
     for s in str_ignore_diff:
         if str.find(s) != -1:
             return True
+    if str.find(" * ") == 0:
+        return True
     return False
 
 
