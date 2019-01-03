@@ -11,6 +11,7 @@ def helpfunc():
     print("FolderWithNewFiles: Folder with new Files to update the old folder")
     print("FolderWithOldFiles: Folder to be updated")
     print("FilePattern: File pattern to be updated, ex: *.txt")
+    print("[OPTIONAL] IgnorePath: Path to be ignored during update")
 
 
 def check_path(path):
@@ -59,7 +60,7 @@ def is_ignoreline_only_diff(file1, file2):
     return ret
 
 
-if len(sys.argv) != 4:
+if len(sys.argv) != 4 and len(sys.argv) != 5:
     print("Wrong number of parameters!")
     helpfunc()
     sys.exit(1)
@@ -73,12 +74,27 @@ updatedDir = sys.argv[1]
 newDir = sys.argv[2]
 FilePattern = sys.argv[3]
 
+# Check if "IgnorePath" is used
+if len(sys.argv) == 5:
+    IgnoreDir = sys.argv[4]
+    if check_path(sys.argv[4]) is False:
+        print("Folder arguments must be a valid path!")
+        helpfunc()
+        sys.exit(1)
+else:
+    IgnoreDir = ""
+
+
 filesNotFound = []
 for subdir, dirs, files in os.walk(updatedDir):
     for file in files:
         if fnmatch.fnmatch(file, FilePattern):
             updatedFile = os.path.join(subdir, file)
             findFiles = find_pattern(file, newDir)
+
+            # Do not update files in "IgnorePath"
+            if os.path.normpath(IgnoreDir) in os.path.normpath(updatedFile) and len(IgnoreDir) > 0:
+                continue
 
             # Remove files found in UpdatedDir:
             removeFiles = []
