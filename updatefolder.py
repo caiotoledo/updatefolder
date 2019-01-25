@@ -7,6 +7,7 @@ import difflib
 import argparse
 
 
+# Arguments parser:
 parser = argparse.ArgumentParser(description='Update a folder with new files')
 parser.add_argument("--FolderWithNewFiles",
                     dest="FolderWithNewFiles",
@@ -59,6 +60,7 @@ def has_ignore_diff(str, str_ignore_diff=None):
         for s in str_ignore_diff:
             if str.find(s) != -1:
                 return True
+    # Ignore comments changes:
     if str.find(" * ") == 0:
         return True
     return False
