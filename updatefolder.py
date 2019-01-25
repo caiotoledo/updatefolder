@@ -129,12 +129,12 @@ for subdir, dirs, files in os.walk(updatedDir):
 
                         copyfile(updatedFile, f)
                         print("Updated file:")
-                        print(updatedFile, "->", f)
+                        print(updatedFile + " -> " + f)
                         print("\n")
             else:
                 filesNotFound.append(updatedFile)
 
 if len(filesNotFound) > 0:
-    print("FILES NOT FOUND ON", newDir, ":")
+    print("FILES NOT FOUND ON " + newDir + ":")
     for f in filesNotFound:
         print(f)
