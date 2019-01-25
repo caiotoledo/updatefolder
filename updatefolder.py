@@ -6,6 +6,7 @@ from shutil import copyfile
 import difflib
 
 
+# Function to show script help
 def helpfunc():
     print("usage: updatefolder.py [FolderWithNewFiles] [FolderWithOldFiles] [FilePattern]")
     print("FolderWithNewFiles: Folder with new Files to update the old folder")
@@ -14,6 +15,7 @@ def helpfunc():
     print("[OPTIONAL] IgnorePath: Path to be ignored during update")
 
 
+# Verify if its a existent path
 def check_path(path):
     if os.path.exists(path):
         return True
@@ -21,6 +23,7 @@ def check_path(path):
         return False
 
 
+# Find all files that matches with a given pattern
 def find_pattern(pattern, path):
     result = []
     for root, dirs, files in os.walk(path):
@@ -60,16 +63,19 @@ def is_ignoreline_only_diff(file1, file2):
     return ret
 
 
+# Check number of arguments are valid
 if len(sys.argv) != 4 and len(sys.argv) != 5:
     print("Wrong number of parameters!")
     helpfunc()
     sys.exit(1)
 
+# Check if the path arguments is valid
 if check_path(sys.argv[1]) is False or check_path(sys.argv[2]) is False:
     print("Folder arguments must be a valid path!")
     helpfunc()
     sys.exit(1)
 
+# Store arg in variables
 updatedDir = sys.argv[1]
 newDir = sys.argv[2]
 FilePattern = sys.argv[3]
