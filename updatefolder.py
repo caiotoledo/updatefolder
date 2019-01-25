@@ -28,7 +28,13 @@ parser.add_argument("--IgnorePath",
                     help="[OPTIONAL] Path to be ignored during update",
                     metavar="IGNOREPATH",
                     default='')
+parser.add_argument("--IgnoreString",
+                    dest="IgnoreString",
+                    help="[OPTIONAL] If the diff contains only theses strings, it will be ignored",
+                    metavar="IGNORESTR",
+                    nargs="+")
 args = parser.parse_args()
+
 
 # Verify if its a existent path
 def check_path(path):
@@ -48,17 +54,11 @@ def find_pattern(pattern, path):
     return result
 
 
-str_ignore_diff = {
-    "!!IGNORE-LINE!!",
-    "GENERATION TIME :",
-    "GENERATED ON:"
-}
-
-
-def has_ignore_diff(str):
-    for s in str_ignore_diff:
-        if str.find(s) != -1:
-            return True
+def has_ignore_diff(str, str_ignore_diff=None):
+    if str_ignore_diff is not None:
+        for s in str_ignore_diff:
+            if str.find(s) != -1:
+                return True
     if str.find(" * ") == 0:
         return True
     return False
@@ -71,7 +71,7 @@ def is_ignoreline_only_diff(file1, file2):
     diff = difflib.ndiff(lines1, lines2)
     deltas = ''.join(x[2:] for x in diff if x.startswith('- ')).split('\n')
     for l in deltas:
-        if has_ignore_diff(l) is False and \
+        if has_ignore_diff(l,args.IgnoreString) is False and \
                 len(l) > 0:
             ret = False
             break
