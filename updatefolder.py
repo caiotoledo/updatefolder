@@ -4,16 +4,31 @@ import fnmatch
 import filecmp
 from shutil import copyfile
 import difflib
+import argparse
 
 
-# Function to show script help
-def helpfunc():
-    print("usage: updatefolder.py [FolderWithNewFiles] [FolderWithOldFiles] [FilePattern]")
-    print("FolderWithNewFiles: Folder with new Files to update the old folder")
-    print("FolderWithOldFiles: Folder to be updated")
-    print("FilePattern: File pattern to be updated, ex: *.txt")
-    print("[OPTIONAL] IgnorePath: Path to be ignored during update")
-
+parser = argparse.ArgumentParser(description='Update a folder with new files')
+parser.add_argument("--FolderWithNewFiles",
+                    dest="FolderWithNewFiles",
+                    help="Folder with new Files to update the old folder",
+                    metavar="NEWFOLDER",
+                    required=True)
+parser.add_argument("--FolderWithOldFiles",
+                    dest="FolderWithOldFiles",
+                    help="Folder to be updated",
+                    metavar="OLDFOLDER",
+                    required=True)
+parser.add_argument("--FilePattern",
+                    dest="FilePattern",
+                    help="File pattern to be updated, ex: *.txt",
+                    metavar="PATTERNFILE",
+                    required=True)
+parser.add_argument("--IgnorePath",
+                    dest="IgnorePath",
+                    help="[OPTIONAL] Path to be ignored during update",
+                    metavar="IGNOREPATH",
+                    default='')
+args = parser.parse_args()
 
 # Verify if its a existent path
 def check_path(path):
@@ -63,32 +78,23 @@ def is_ignoreline_only_diff(file1, file2):
     return ret
 
 
-# Check number of arguments are valid
-if len(sys.argv) != 4 and len(sys.argv) != 5:
-    print("Wrong number of parameters!")
-    helpfunc()
-    sys.exit(1)
+# Store arg in variables
+updatedDir = args.FolderWithNewFiles
+newDir = args.FolderWithOldFiles
+FilePattern = args.FilePattern
+IgnoreDir = args.IgnorePath
 
 # Check if the path arguments is valid
-if check_path(sys.argv[1]) is False or check_path(sys.argv[2]) is False:
+if check_path(updatedDir) is False or check_path(updatedDir) is False:
     print("Folder arguments must be a valid path!")
     helpfunc()
     sys.exit(1)
 
-# Store arg in variables
-updatedDir = sys.argv[1]
-newDir = sys.argv[2]
-FilePattern = sys.argv[3]
-
 # Check if "IgnorePath" is used
-if len(sys.argv) == 5:
-    IgnoreDir = sys.argv[4]
-    if check_path(sys.argv[4]) is False:
+if len(IgnoreDir) > 0:
+    if check_path(IgnoreDir) is False:
         print("Folder arguments must be a valid path!")
-        helpfunc()
         sys.exit(1)
-else:
-    IgnoreDir = ""
 
 
 filesNotFound = []
