@@ -9,8 +9,9 @@ echo "Generating files..."
 
 echo "\n"
 echo "Calling updatefolder.py:"
-echo "python updatefolder.py ./folders/testfolder1 ./folders/ *.h"
+set -v
 python3 updatefolder.py --FolderWithNewFiles ./folders/testfolder1 --FolderWithOldFiles ./folders/ --FilePattern *.h --IgnoreString '!!IGNORE-LINE!!' 'GENERATION TIME' 'GENERATED ON:'
+set +v
 
 echo "\n"
 echo "Running Test verification:"
