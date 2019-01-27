@@ -24,9 +24,9 @@ for file in *; do
 		error=1
 	fi
 done
-cd $PWD
+cd ../../
+rm -rf folders
 if [ $error -eq 0 ]; then
 	echo -e "${GREEN}NO ERRORS FOUND!${NC}"
-else
-	exit 1
 fi
+exit $error
