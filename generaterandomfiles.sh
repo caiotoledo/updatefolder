@@ -4,6 +4,7 @@ generatefile(){
 	< /dev/urandom tr -dc "\t\n [:alnum:]" | head -c1000 >> $1
 }
 
+rm -rf ./folders/
 mkdir -p folders/testfolder1
 mkdir -p folders/testfolder2
 
