@@ -10,10 +10,10 @@ CONFIG = {
         {
             "bin":"python scripts/updatefolder.py",
             "params": OrderedDict([
-                ("%s/rte-%s-AutosarOs/TresosWs/%s", ["dir_build", "variant", "variant"]),
-                (folderOld, ["dir_root"]),
-                (parttern,  []),
-                ("%s/rte-%s-AutosarOs/TresosWs/%s/virginimport", ["dir_build", "variant", "variant"])
+                ("--FolderWithNewFiles %s/rte-%s-AutosarOs/TresosWs/%s", ["dir_build", "variant", "variant"]),
+                ("--FolderWithOldFiles " + folderOld, ["dir_root"]),
+                ("--FilePattern " + parttern,  []),
+                ("--IgnorePath %s/rte-%s-AutosarOs/TresosWs/%s/virginimport", ["dir_build", "variant", "variant"]),
             ])
         } for parttern, folderOld in [
             ("*.xdm", "%s/adapt/"),
@@ -25,9 +25,10 @@ CONFIG = {
         {
             "bin":"python scripts/updatefolder.py",
             "params": OrderedDict([
-                ("%s/rte-%s-AutosarOs/TresosWs/%s/output/generated", ["dir_build", "variant", "variant"]),
-                ("%s/pkg/application/", ["dir_root"]),
-                (parttern, [])
+                ("--FolderWithNewFiles %s/rte-%s-AutosarOs/TresosWs/%s/output/generated", ["dir_build", "variant", "variant"]),
+                ("--FolderWithOldFiles %s/pkg/application/", ["dir_root"]),
+                ("--FilePattern " + parttern, []),
+                ("--IgnoreString '!!IGNORE-LINE!!' 'GENERATION TIME' 'GENERATED ON:'", [])
             ])
         } for parttern in [ "*.c", "*.h" ]
     ]
