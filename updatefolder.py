@@ -89,7 +89,7 @@ IgnoreDir = args.IgnorePath
 # Check if the path arguments is valid
 if check_path(updatedDir) is False or check_path(updatedDir) is False:
     print("Folder arguments must be a valid path!")
-    helpfunc()
+    parser.print_help()
     sys.exit(1)
 
 # Check if "IgnorePath" is used
