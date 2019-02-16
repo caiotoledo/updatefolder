@@ -70,8 +70,10 @@ def is_ignoreline_only_diff(file1, file2):
     ret = True
     lines1 = open(file1).readlines()
     lines2 = open(file2).readlines()
-    diff = difflib.ndiff(lines1, lines2)
-    deltas = ''.join(x[2:] for x in diff if x.startswith('- ')).split('\n')
+    diff1 = difflib.ndiff(lines1, lines2)
+    diff2 = difflib.ndiff(lines2, lines1)
+    deltas = ''.join(x[2:] for x in diff1 if x.startswith('- ')).split('\n')
+    deltas += ''.join(x[2:] for x in diff2 if x.startswith('- ')).split('\n')
     for l in deltas:
         if has_ignore_diff(l,args.IgnoreString) is False and \
                 len(l) > 0:
