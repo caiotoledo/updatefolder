@@ -19,6 +19,8 @@ echo "OPA !!IGNORE-LINE!!\n" >> folders/testfolder1/fileignore1.h
 echo "OPA !!IGNORE-LINE!!\n" >> folders/testfolder1/file5.h
 generatefile folders/testfolder1/file5.h
 
+generatefile folders/testfolder1/file6.h
+
 # folders/testfolder2 files:
 generatefile folders/testfolder2/file1.h
 generatefile folders/testfolder2/file2.h
@@ -29,3 +31,6 @@ sed -i 's/OPA/HEY/g' folders/testfolder2/fileignore1.h
 
 echo "HEY !!IGNORE-LINE!!\n" >> folders/testfolder2/file5.h
 generatefile folders/testfolder2/file5.h
+
+cp folders/testfolder1/file6.h folders/testfolder2/file6.h
+sed -i '$ d' folders/testfolder1/file6.h
