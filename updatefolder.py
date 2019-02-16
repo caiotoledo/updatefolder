@@ -49,6 +49,7 @@ def check_path(path):
 def find_pattern(pattern, path):
     result = []
     for root, dirs, files in os.walk(path):
+        _ = dirs
         for name in files:
             if fnmatch.fnmatch(name, pattern):
                 result.append(os.path.join(root, name))
