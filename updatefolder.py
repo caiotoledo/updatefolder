@@ -124,10 +124,8 @@ for subdir, dirs, files in os.walk(updatedDir):
                 for f in findFiles:
                     if filecmp.cmp(f, updatedFile) is False:
 
-                        # Workaround to ignore generated source and header files by Tresos:
-                        if fnmatch.fnmatch(updatedFile, "*.c") or fnmatch.fnmatch(updatedFile, "*.h"):
-                            if is_ignoreline_only_diff(updatedFile, f) is True:
-                                continue
+                        if is_ignoreline_only_diff(updatedFile, f) is True:
+                            continue
 
                         copyfile(updatedFile, f)
                         print("Updated file:")
