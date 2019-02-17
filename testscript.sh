@@ -8,6 +8,10 @@ echo "Generating files..."
 ./generaterandomfiles.sh
 
 echo -e "\n"
+echo "Current version:"
+python3 updatefolder.py --version
+
+echo -e "\n"
 echo "Calling updatefolder.py:"
 set -v
 python3 updatefolder.py --FolderWithNewFiles ./folders/testfolder1 --FolderWithOldFiles ./folders/ --FilePattern *.h --IgnoreString '!!IGNORE-LINE!!' 'GENERATION TIME' 'GENERATED ON:'
