@@ -6,6 +6,8 @@ from shutil import copyfile
 import difflib
 import argparse
 
+# Version variable:
+__version__ = "v0.2.0"
 
 # Arguments parser:
 parser = argparse.ArgumentParser(description='Update a folder with new files')
@@ -34,6 +36,9 @@ parser.add_argument("--IgnoreString",
                     help="[OPTIONAL] If the diff contains only theses strings, it will be ignored",
                     metavar="IGNORESTR",
                     nargs="+")
+parser.add_argument("--version",
+                    action='version',
+                    version=__version__)
 args = parser.parse_args()
 
 
