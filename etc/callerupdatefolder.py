@@ -28,7 +28,7 @@ CONFIG = {
                 ("--FolderWithNewFiles %s/rte-%s-AutosarOs/TresosWs/%s/output/generated", ["dir_build", "variant", "variant"]),
                 ("--FolderWithOldFiles %s/pkg/application/", ["dir_root"]),
                 ("--FilePattern " + parttern, []),
-                ("--IgnoreString '!!IGNORE-LINE!!' 'GENERATION TIME' 'GENERATED ON:'", [])
+                ("--IgnoreString \"!!IGNORE-LINE!!\" \"GENERATION TIME :\" \"GENERATED ON:\"", [])
             ])
         } for parttern in [ "*.c", "*.h" ]
     ]
